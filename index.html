@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeForum</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <button id="themeToggle" class="theme-toggle">
+        <img src="assets/icons/moon.svg" alt="Theme Toggle" id="themeIcon">
+    </button>
+    
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-comments"></i> VibeForum
+        </div>
+        <div class="nav-links">
+            <button id="newThreadBtn" class="btn primary">
+                <i class="fas fa-plus"></i> New Thread
+            </button>
+            <a href="login.html" class="btn">
+                <i class="fas fa-user"></i> Login
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <aside class="categories">
+            <h2><i class="fas fa-th-large"></i> Categories</h2>
+            <ul id="categoryList">
+                <li class="active" data-category="all">
+                    <i class="fas fa-globe"></i> All Topics
+                </li>
+                <li data-category="general">
+                    <i class="fas fa-comments"></i> General Discussion
+                </li>
+                <li data-category="tech">
+                    <i class="fas fa-laptop-code"></i> Technology
+                </li>
+                <li data-category="gaming">
+                    <i class="fas fa-gamepad"></i> Gaming
+                </li>
+                <li data-category="music">
+                    <i class="fas fa-music"></i> Music
+                </li>
+            </ul>
+        </aside>
+
+        <section class="content">
+            <div class="threads-header">
+                <h1><i class="fas fa-fire"></i> Popular Threads</h1>
+                <div class="sort-options">
+                    <select id="sortSelect">
+                        <option value="newest">Newest First</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="active">Most Active</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="threadsList" class="threads-list">
+                <!-- Threads will be dynamically added here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for creating new thread -->
+    <div id="newThreadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-edit"></i> Create New Thread</h2>
+            <form id="newThreadForm">
+                <div class="form-group">
+                    <label for="threadTitle">Title</label>
+                    <input type="text" id="threadTitle" required placeholder="Enter a catchy title...">
+                </div>
+                <div class="form-group">
+                    <label for="threadCategory">Category</label>
+                    <select id="threadCategory" required>
+                        <option value="general">General Discussion</option>
+                        <option value="tech">Technology</option>
+                        <option value="gaming">Gaming</option>
+                        <option value="music">Music</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="threadContent">Content</label>
+                    <textarea id="threadContent" required placeholder="Share your thoughts..."></textarea>
+                </div>
+                <button type="submit" class="btn primary">
+                    <i class="fas fa-paper-plane"></i> Create Thread
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Easter egg notification -->
+    <div id="easterEggNotification" class="easter-egg-notification">
+        <i class="fas fa-magic"></i> You found an easter egg!
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/forum.js"></script>
+</body>
+</html>
