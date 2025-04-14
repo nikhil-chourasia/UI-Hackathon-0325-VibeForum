@@ -2,8 +2,6 @@
 
 VibeForum is a sleek, modern forum platform built with HTML, CSS, and JavaScript. It features a responsive design, dark/light theme support, and a user-friendly interface for creating and managing discussions.
 
-![VibeForum Screenshot](screenshot.png)
-
 ## Features
 
 - **Modern UI/UX**: Clean, intuitive interface with smooth animations and transitions
