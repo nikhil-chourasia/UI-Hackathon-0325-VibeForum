@@ -337,4 +337,8 @@ body.morning-theme .theme-toggle {
 
 body.morning-theme .theme-toggle:hover {
     box-shadow: 0 0 30px rgba(248, 181, 0, 0.9);
+}
+
+body.morning-theme .theme-toggle img {
+    filter: brightness(0) invert(1);
 } 

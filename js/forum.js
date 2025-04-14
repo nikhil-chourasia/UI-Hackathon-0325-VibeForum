@@ -46,9 +46,11 @@ const categoryList = document.getElementById('categoryList');
 const newPostBtn = document.getElementById('newThreadBtn');
 const newPostModal = document.getElementById('newThreadModal');
 const closeModal = document.querySelector('.close');
-const newPostForm = document.getElementById('newThreadForm');
+const threadForm = document.getElementById('threadForm');
 const sortSelect = document.getElementById('sortSelect');
 const navBrand = document.querySelector('.nav-brand');
+const imageInput = document.getElementById('threadImage');
+const imagePreview = document.querySelector('.image-preview');
 
 // Fun animations for the brand name
 navBrand.addEventListener('mouseover', () => {
@@ -136,7 +138,7 @@ function createConfetti() {
 }
 
 // Create new post with animation
-newPostForm.addEventListener('submit', (e) => {
+threadForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
     const newPost = {
@@ -161,7 +163,7 @@ newPostForm.addEventListener('submit', (e) => {
     newPostModal.classList.remove('active');
     setTimeout(() => {
         newPostModal.style.display = 'none';
-        newPostForm.reset();
+        threadForm.reset();
     }, 300);
 });
 
@@ -390,39 +392,51 @@ function submitReply(postId, commentId) {
     }
 }
 
-// Display posts with animation
-function displayPosts(category) {
-    let filteredPosts = category === 'all' 
-        ? posts 
-        : posts.filter(post => post.category === category);
+// Initialize the page
+document.addEventListener('DOMContentLoaded', () => {
+    // Display initial posts
+    displayPosts('all');
     
-    const sortBy = sortSelect.value;
-    filteredPosts.sort((a, b) => {
-        switch(sortBy) {
-            case 'newest':
-                return b.timestamp - a.timestamp;
-            case 'popular':
-                return b.votes - a.votes;
-            case 'active':
-                return b.comments.length - a.comments.length;
-            default:
-                return 0;
+    // Add click handlers for vote buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('vote-btn')) {
+            const postCard = e.target.closest('.post-card');
+            const postId = parseInt(postCard.dataset.postId);
+            const increment = e.target.classList.contains('upvote') ? 1 : -1;
+            handleVote('post', postId, increment);
         }
     });
+});
+
+// Display posts based on category and sort
+function displayPosts(category) {
+    if (!postsList) return;
     
     postsList.innerHTML = '';
     
-    filteredPosts.forEach((post, index) => {
+    let filteredPosts = posts;
+    if (category !== 'all') {
+        filteredPosts = posts.filter(post => post.category.toLowerCase() === category);
+    }
+    
+    const sortBy = sortSelect.value;
+    switch (sortBy) {
+        case 'newest':
+            filteredPosts.sort((a, b) => b.timestamp - a.timestamp);
+            break;
+        case 'popular':
+            filteredPosts.sort((a, b) => b.votes - a.votes);
+            break;
+        case 'active':
+            filteredPosts.sort((a, b) => b.comments.length - a.comments.length);
+            break;
+    }
+    
+    filteredPosts.forEach(post => {
         const postElement = createPostElement(post);
-        postElement.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s`;
         postsList.appendChild(postElement);
     });
 }
-
-// Initial display with animation
-setTimeout(() => {
-    displayPosts('all');
-}, 100);
 
 // Add some fun Easter eggs
 document.addEventListener('keydown', (e) => {
@@ -435,31 +449,49 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Remove theme toggle code
 // Theme Toggle Logic
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon = document.getElementById('themeIcon');
+// const themeToggle = document.getElementById('themeToggle');
+// const themeIcon = document.getElementById('themeIcon');
 
 // Load theme on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//     const savedTheme = localStorage.getItem('theme') || 'dark';
+//     applyTheme(savedTheme);
+// });
 
-themeToggle.addEventListener('click', () => {
-    const newTheme = document.body.classList.contains('morning-theme') ? 'dark' : 'light';
-    applyTheme(newTheme);
-});
+// themeToggle.addEventListener('click', () => {
+//     const newTheme = document.body.classList.contains('morning-theme') ? 'dark' : 'light';
+//     applyTheme(newTheme);
+// });
 
-function applyTheme(mode) {
-    const body = document.body;
+// function applyTheme(mode) {
+//     const body = document.body;
 
-    if (mode === 'light') {
-        body.classList.add('morning-theme');
-        themeIcon.src = 'sun.svg';
-    } else {
-        body.classList.remove('morning-theme');
-        themeIcon.src = 'moon.svg';
-    }
+//     if (mode === 'light') {
+//         body.classList.add('morning-theme');
+//         themeIcon.src = 'sun.svg';
+//     } else {
+//         body.classList.remove('morning-theme');
+//         themeIcon.src = 'moon.svg';
+//     }
 
-    localStorage.setItem('theme', mode);
+//     localStorage.setItem('theme', mode);
+// }
+
+// Handle image upload and preview
+if (imageInput) {
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.style.display = 'block';
+                imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+            }
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.style.display = 'none';
+        }
+    });
 } 

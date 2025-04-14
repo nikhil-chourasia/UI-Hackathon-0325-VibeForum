@@ -3,35 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const formInputs = document.querySelectorAll('.form-control');
     const submitButton = document.querySelector('.btn');
     
-    // Theme toggle elements
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    
-    // Load theme on page load
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
-    
-    // Theme toggle event listener
-    themeToggle.addEventListener('click', () => {
-        const newTheme = document.body.classList.contains('morning-theme') ? 'dark' : 'light';
-        applyTheme(newTheme);
-    });
-    
-    // Apply theme function
-    function applyTheme(mode) {
-        const body = document.body;
-
-        if (mode === 'light') {
-            body.classList.add('morning-theme');
-            themeIcon.src = '../sun.svg';
-        } else {
-            body.classList.remove('morning-theme');
-            themeIcon.src = '../moon.svg';
-        }
-
-        localStorage.setItem('theme', mode);
-    }
-
     // Add focus effects to form inputs
     formInputs.forEach(input => {
         input.addEventListener('focus', () => {
