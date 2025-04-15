@@ -1,29 +1,36 @@
 // Theme toggle functionality
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = themeToggle.querySelector('i');
-    const themeText = themeToggle.querySelector('span') || themeToggle.lastChild;
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
     
-    // Get saved theme or default to dark
-    const currentTheme = localStorage.getItem('theme') || 'dark';
+    // Get the current theme from localStorage or default to dark
+    let currentTheme = localStorage.getItem('theme') || 'dark';
+    
+    // Apply the initial theme
     applyTheme(currentTheme);
-
-    themeToggle.addEventListener('click', () => {
-        const newTheme = document.body.classList.contains('morning-theme') ? 'dark' : 'light';
-        applyTheme(newTheme);
+    
+    // Add click event to toggle theme
+    themeToggle.addEventListener('click', function() {
+        // Toggle between dark and light themes
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Apply the new theme
+        applyTheme(currentTheme);
+        
+        // Save the theme preference to localStorage
+        localStorage.setItem('theme', currentTheme);
     });
-
+    
     function applyTheme(theme) {
-        if (theme === 'light') {
-            document.body.classList.add('morning-theme');
-            themeIcon.className = 'fas fa-sun';
-            themeText.textContent = ' Light Mode';
-            localStorage.setItem('theme', 'light');
-        } else {
+        if (theme === 'dark') {
             document.body.classList.remove('morning-theme');
-            themeIcon.className = 'fas fa-moon';
-            themeText.textContent = ' Dark Mode';
-            localStorage.setItem('theme', 'dark');
+            themeIcon.src = 'assets/icons/moon.svg';
+            themeText.textContent = 'Dark Mode';
+        } else {
+            document.body.classList.add('morning-theme');
+            themeIcon.src = 'assets/icons/sun.svg';
+            themeText.textContent = 'Light Mode';
         }
     }
 }); 
